@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Suma de Matrices</title> 
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .matriz {
+            display: inline-block;
+            margin: 10px;
+        }
+        .matriz input {
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            margin: 3px;
+            font-size: 16px;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Suma de Matrices</h1>
+
+        <!-- Inputs para ingresar filas y columnas -->
+        <label for="filas">Filas:</label>
+        <input type="number" id="filas" min="1" value="2">
+        
+        <label for="columnas">Columnas:</label>
+        <input type="number" id="columnas" min="1" value="2">
+        
+        <!-- Botón para generar las matrices -->
+        <button onclick="generarMatrices()">Generar Matrices</button>
+
+        <!-- Contenedor donde se mostrarán las matrices -->
+        <div id="matrices" style="margin-top: 20px;"></div>
+        
+        <!-- Botón para sumar las matrices, oculto por defecto -->
+        <button onclick="sumarMatrices()" style="display:none;" id="sumarBtn">Sumar Matrices</button>
+
+        <!-- Contenedor donde se mostrará el resultado -->
+        <div id="resultado" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        // Función que genera los inputs para ingresar las matrices
+        function generarMatrices() {
+            // Obtiene el número de filas y columnas ingresadas por el usuario
+            const filas = parseInt(document.getElementById("filas").value);
+            const columnas = parseInt(document.getElementById("columnas").value);
+            const contenedor = document.getElementById("matrices");
+            const botonSumar = document.getElementById("sumarBtn");
+            
+            // Borra cualquier contenido previo en el contenedor de matrices
+            contenedor.innerHTML = ""; 
+
+            // Crear Matriz 1
+            let matriz1Div = document.createElement("div"); // Crea un div para la matriz 1
+            matriz1Div.className = "matriz"; // Le asigna la clase CSS "matriz"
+            matriz1Div.innerHTML = "<h3>Matriz 1</h3>"; // Título de la matriz 1
+            for (let i = 0; i < filas; i++) { // Itera sobre las filas
+                for (let j = 0; j < columnas; j++) { // Itera sobre las columnas
+                    // Crea un input para cada celda de la matriz
+                    matriz1Div.innerHTML += `<input type="number" id="m1-${i}-${j}" value="0">`;
+                }
+                matriz1Div.innerHTML += "<br>"; // Salto de línea después de cada fila
+            }
+
+            // Crear Matriz 2
+            let matriz2Div = document.createElement("div"); // Crea un div para la matriz 2
+            matriz2Div.className = "matriz"; // Le asigna la clase CSS "matriz"
+            matriz2Div.innerHTML = "<h3>Matriz 2</h3>"; // Título de la matriz 2
+            for (let i = 0; i < filas; i++) { // Itera sobre las filas
+                for (let j = 0; j < columnas; j++) { // Itera sobre las columnas
+                    // Crea un input para cada celda de la matriz
+                    matriz2Div.innerHTML += `<input type="number" id="m2-${i}-${j}" value="0">`;
+                }
+                matriz2Div.innerHTML += "<br>"; // Salto de línea después de cada fila
+            }
+
+            // Agrega las matrices al contenedor
+            contenedor.appendChild(matriz1Div);
+            contenedor.appendChild(matriz2Div);
+            
+            // Muestra el botón de suma
+            botonSumar.style.display = "block";
+        }
+
+        // Función que suma las matrices
+        function sumarMatrices() {
+            const filas = parseInt(document.getElementById("filas").value); // Obtiene número de filas
+            const columnas = parseInt(document.getElementById("columnas").value); // Obtiene número de columnas
+            let resultadoDiv = document.getElementById("resultado"); // Obtiene el contenedor del resultado
+            resultadoDiv.innerHTML = "<h3>Resultado</h3>"; // Agrega título al resultado
+
+            let matrizResultado = "<div class='matriz'>"; // Inicia la estructura de la matriz resultante
+            
+            for (let i = 0; i < filas; i++) { // Recorre las filas
+                for (let j = 0; j < columnas; j++) { // Recorre las columnas
+                    let valor1 = parseFloat(document.getElementById(`m1-${i}-${j}`).value); // Obtiene el valor de la matriz 1
+                    let valor2 = parseFloat(document.getElementById(`m2-${i}-${j}`).value); // Obtiene el valor de la matriz 2
+                    
+                    // Verifica que ambos valores sean numéricos
+                    if (isNaN(valor1) || isNaN(valor2)) {
+                        alert("Por favor, ingrese solo valores numéricos."); // Muestra alerta si hay un error
+                        return; // Sale de la función si hay valores no numéricos
+                    }
+
+                    let suma = valor1 + valor2; // Suma los valores
+                    matrizResultado += `<input type="text" value="${suma}" disabled>`; // Agrega el resultado en un input deshabilitado
+                }
+                matrizResultado += "<br>"; // Salto de línea después de cada fila
+            }
+
+            matrizResultado += "</div>"; // Cierra la estructura de la matriz resultante
+            resultadoDiv.innerHTML += matrizResultado; // Muestra el resultado en pantalla
+        }
+    </script>
+
+</body>
+</html>
